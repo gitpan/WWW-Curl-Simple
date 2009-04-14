@@ -1,0 +1,27 @@
+---
+abstract: 'A simpler interface to WWW::Curl'
+author:
+  - 'Andreas Marienborg <andreas@startsiden.no>'
+build_requires:
+  Test::More: 0
+distribution_type: module
+generated_by: 'Module::Install version 0.79'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: WWW-Curl-Simple
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  HTTP::Request: 0
+  Moose: 0.50
+  MooseX::AttributeHelpers: 0
+  Sub::Alias: 0
+  WWW::Curl: 4.06
+  namespace::clean: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.01
