@@ -1,7 +1,7 @@
 package WWW::Curl::Simple;
-
+our $VERSION = '0.100160';
+# ABSTRACT: A Simpler interface to WWW::Curl
 use Moose;
-use MooseX::AttributeHelpers;
 
 use HTTP::Request;
 use HTTP::Response;
@@ -14,39 +14,9 @@ use WWW::Curl::Easy;
 
 use namespace::clean -except => 'meta';
 
-=head1 NAME
-
-WWW::Curl::Simple - A simpler interface to WWW::Curl
-
-=head1 VERSION
-
-Version 0.04
-
-=head1 SYNOPSIS
-
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use WWW::Curl::Simple;
-
-    my $curl = WWW::Curl::Simple->new();
-    
-    my $res = $curl->get('http://www.google.com/');
 
 
-=cut
 
-our $VERSION = '0.05';
-
-
-=head3 request($req)
-
-$req should be a  HTTP::Request object.
-
-If you have a URI-string or object, look at the get-method instead
-
-=cut
 
 sub request {
     my ($self, $req) = @_;
@@ -58,25 +28,12 @@ sub request {
 }
 
 
-=head3 get($uri || URI)
-
-Accepts one parameter, which should be a reference to a URI object or a
-string representing a uri.
-
-=cut
 
 sub get {
     my ($self, $uri) = @_;
     return $self->request(HTTP::Request->new(GET => $uri));
 }
 
-=head3 post($uri || URI, $form)
-
-Created a HTTP::Request of type POST to $uri, which can be a string
-or a URI object, and sets the form of the request to $form. See
-L<HTTP::Request> for more information on the format of $form
-
-=cut
 
 sub post {
     my ($self, $uri, $form) = @_;
@@ -84,41 +41,60 @@ sub post {
     return $self->request(HTTP::Request->new(POST => $uri, undef, $form));
 }
 
-=head2 MULTI requests usage
 
-=head3 add_request($req)
-
-Adds $req (HTTP::Request) to the list of URL's to fetch
-
-=cut
 
 has _requests => (
-    metaclass => 'Collection::Array', 
+    traits => ['Array'], 
     is => 'ro', 
     isa => 'ArrayRef[WWW::Curl::Simple::Request]', 
-    provides => {
-        push => '_add_request',
-        elements => 'requests'
+    handles => {
+        _add_request => 'push',
+        requests => 'elements',
+        _find_request => 'first',
+        _count_requests => 'count',
+        _get_request => 'get',
+        _delete_request => 'delete',
     },
     default => sub { [] },
 );
 
 sub add_request {
     my ($self, $req) = @_;
+    $req = WWW::Curl::Simple::Request->new(request => $req);
+    $self->_add_request($req);
     
-    $self->_add_request(WWW::Curl::Simple::Request->new(request => $req));
+    return $req;
 }
+
 
 __PACKAGE__->meta->add_package_symbol('&register',
     __PACKAGE__->meta->get_package_symbol('&add_request')
 );
 
-=head3 perform
 
-Does all the requests added with add_request, and returns a 
-list of HTTP::Response-objects
+sub has_request {
+    my ($self, $req) = @_;
+    
+    $self->_find_request(sub {
+        $_ == $req
+    });
+}
 
-=cut
+
+sub delete_request {
+    my ($self, $req) = @_;
+    
+    return unless $self->has_request($req);
+    # need to find the index
+    my $c = $self->_count_requests;
+    
+    while ($c--) {
+        $self->_delete_request($c) if ($self->_get_request($c) == $req);
+    }
+    return 1;
+}
+
+
 
 sub perform {
     my ($self) = @_;
@@ -137,9 +113,13 @@ sub perform {
         # XXX: Should re-factor this to be a metaclass/trait on the attributes,
         # and a general method that takes all those and applies the propper setopt
         # calls
-        
-        $curl->setopt(CURLOPT_TIMEOUT, $self->timeout) if $self->timeout;
-        $curl->setopt(CURLOPT_CONNECTTIMEOUT, $self->connection_timeout) if $self->connection_timeout;
+        if ($self->timeout_ms) {
+            $curl->setopt(CURLOPT_TIMEOUT_MS, $self->timeout_ms) if $self->timeout_ms;
+            $curl->setopt(CURLOPT_CONNECTTIMEOUT_MS, $self->connection_timeout_ms) if $self->connection_timeout_ms;            
+        } else {
+            $curl->setopt(CURLOPT_TIMEOUT, $self->timeout) if $self->timeout;
+            $curl->setopt(CURLOPT_CONNECTTIMEOUT, $self->connection_timeout) if $self->connection_timeout;
+        }
         
         $curlm->add_handle($curl);
         
@@ -170,19 +150,6 @@ sub perform {
 }
 
 
-=head3 LWP::Parallel::UserAgent compliant methods
-
-=over
-
-=item wait
-
-These methods are here to provide an easier transition from
-L<LWP::Parallel::UserAgent>. It is by no means a drop in replacement,
-but using C<wait> instead of C<perform> makes the return-value perform
-more alike
-
-=back
-=cut
 
 sub wait {
     my $self = shift;
@@ -201,88 +168,118 @@ sub wait {
 }
 
 
-=head2 ATTRIBUTES
 
-=head3 timeout
-
-Sets the timeout of individual requests, in seconds
-
-=cut
 
 has 'timeout' => (is => 'ro', isa => 'Int');
+has 'timeout_ms' => (is => 'ro', isa => 'Int');
 
-=head3 connection_timeout
-
-Sets the timeout of the connect phase of requests, in seconds
-
-=cut
 
 has 'connection_timeout' => (is => 'ro', isa => 'Int');
+has 'connection_timeout_ms' => (is => 'ro', isa => 'Int');
 
 
-=head3 fatal
+
+has 'fatal' => (is => 'ro', isa => 'Bool', default => 1);
+
+1; # End of WWW::Curl::Simple
+
+__END__
+=pod
+
+=head1 NAME
+
+WWW::Curl::Simple - A Simpler interface to WWW::Curl
+
+=head1 VERSION
+
+version 0.100160
+
+=head1 SYNOPSIS
+
+It makes it easier to use WWW::Curl::(Easy|Multi), or so I hope
+
+    use WWW::Curl::Simple;
+
+    my $curl = WWW::Curl::Simple->new();
+    
+    my $res = $curl->get('http://www.google.com/');
+
+=head1 ATTRIBUTES
+
+=head2 timeout / timeout_ms
+
+Sets the timeout of individual requests, in seconds or milliseconds
+
+=head2 connection_timeout /connection_timeout_ms
+
+Sets the timeout of the connect phase of requests, in seconds or milliseconds
+
+=head2 fatal
 
 Defaults to true, but if set to false, it will make failure in multi-requests
 warn instead of die.
 
-=cut
+=head1 METHODS
 
-has 'fatal' => (is => 'ro', isa => 'Bool', default => 1);
+=head2 request($req)
+
+$req should be a  HTTP::Request object.
+
+If you have a URI-string or object, look at the get-method instead.
+Returns a L<HTTP::Response> object.
+
+=head2 get($uri || URI)
+
+Accepts one parameter, which should be a reference to a URI object or a
+string representing a uri. Returns a L<HTTP::Response> object.
+
+=head2 post($uri || URI, $form)
+
+Created a HTTP::Request of type POST to $uri, which can be a string
+or a URI object, and sets the form of the request to $form. See
+L<HTTP::Request> for more information on the format of $form
+
+=head2 add_request($req)
+
+Adds $req (HTTP::Request) to the list of URL's to fetch. Returns a 
+L<WWW::Simple::Curl::Request>
+
+=head2 register($req)
+
+This is just an alias for add_request
+
+=head2 has_request $request
+
+Will return true if $request is one of our requests
+
+=head2 delete_request $req
+
+Will remove $req from our list of requests
+
+=head2 perform
+
+Does all the requests added with add_request, and returns a 
+list of HTTP::Response-objects
+
+=head2 wait
+
+These methods are here to provide an easier transition from
+L<LWP::Parallel::UserAgent>. It is by no means a drop in replacement,
+but using C<wait> instead of C<perform> makes the return-value perform
+more alike
+
+=head1 LWP::Parallel::UserAgent compliant methods
 
 =head1 AUTHOR
 
-Andreas Marienborg, C<< <andreas at startsiden.no> >>
+  Andreas Marienborg <andremar@cpan.org>
 
-=head1 BUGS
+=head1 COPYRIGHT AND LICENSE
 
-Please report any bugs or feature requests to C<bug-www-curl-simple at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=WWW-Curl-Simple>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+This software is copyright (c) 2010 by Andreas Marienborg.
 
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc WWW::Curl::Simple
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Curl-Simple>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/WWW-Curl-Simple>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/WWW-Curl-Simple>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/WWW-Curl-Simple/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
-
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2009 Andreas Marienborg, all rights reserved.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-1; # End of WWW::Curl::Simple

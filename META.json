@@ -1,0 +1,35 @@
+{
+   "resources" : {
+      "repository" : "http://github.com/omega/www-curl-simple"
+   },
+   "meta-spec" : {
+      "version" : 1.4,
+      "url" : "http://module-build.sourceforge.net/META-spec-v1.4.html"
+   },
+   "generated_by" : "Dist::Zilla version 1.093400",
+   "version" : "0.100160",
+   "name" : "WWW-Curl-Simple",
+   "author" : [
+      "Andreas Marienborg <andremar@cpan.org>"
+   ],
+   "license" : "perl",
+   "requires" : {
+      "Scalar::Util" : "0",
+      "Benchmark" : "0",
+      "LWP::Simple" : "0",
+      "WWW::Curl::Multi" : "0",
+      "Moose" : "0",
+      "Benchmark::Apps" : "0",
+      "base" : "0",
+      "Test::Exception" : "0",
+      "ExtUtils::MakeMaker" : 0,
+      "Carp" : "0",
+      "namespace::clean" : "0",
+      "Test::More" : "0",
+      "HTTP::Response" : "0",
+      "File::Basename" : "0",
+      "HTTP::Request" : "0",
+      "WWW::Curl::Easy" : "0"
+   },
+   "abstract" : "A Simpler interface to WWW::Curl"
+}

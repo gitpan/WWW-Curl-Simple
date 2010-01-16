@@ -1,21 +1,36 @@
-use inc::Module::Install;
 
-name     'WWW-Curl-Simple';
-all_from 'lib/WWW/Curl/Simple.pm';
-author   'Andreas Marienborg <andreas@startsiden.no>';
-license  'perl';
+use strict;
+use warnings;
 
-build_requires 'Test::More';
 
-test_requires 'Net::Server';
 
-requires 'WWW::Curl' => '4.06';
-requires 'Moose' => '0.50';
-requires 'MooseX::AttributeHelpers';
-requires 'HTTP::Request';
-requires 'namespace::clean';
+use ExtUtils::MakeMaker;
 
-auto_install;
-
-WriteAll;
+WriteMakefile(
+  DISTNAME  => 'WWW-Curl-Simple',
+  NAME      => 'WWW::Curl::Simple',
+  AUTHOR    => "Andreas\ Marienborg\ \<andremar\@cpan\.org\>",
+  ABSTRACT  => "A\ Simpler\ interface\ to\ WWW\:\:Curl",
+  VERSION   => '0.100160',
+  EXE_FILES => [ qw() ],
+  (eval { ExtUtils::MakeMaker->VERSION(6.31) } ? (LICENSE => 'perl') : ()),
+  PREREQ_PM    => {
+    "Benchmark::Apps" => '0',
+    "base" => '0',
+    "Scalar::Util" => '0',
+    "Test::Exception" => '0',
+    "Benchmark" => '0',
+    "Carp" => '0',
+    "Test::More" => '0',
+    "namespace::clean" => '0',
+    "HTTP::Response" => '0',
+    "File::Basename" => '0',
+    "HTTP::Request" => '0',
+    "LWP::Simple" => '0',
+    "WWW::Curl::Easy" => '0',
+    "Moose" => '0',
+    "WWW::Curl::Multi" => '0',
+  },
+  test => {TESTS => 't/*.t'}
+);
 
