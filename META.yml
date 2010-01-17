@@ -27,4 +27,4 @@ requires:
   namespace::clean: 0
 resources:
   repository: http://github.com/omega/www-curl-simple
-version: 0.100160
+version: 0.100170

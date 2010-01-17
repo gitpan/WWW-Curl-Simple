@@ -7,7 +7,7 @@
       "url" : "http://module-build.sourceforge.net/META-spec-v1.4.html"
    },
    "generated_by" : "Dist::Zilla version 1.093400",
-   "version" : "0.100160",
+   "version" : "0.100170",
    "name" : "WWW-Curl-Simple",
    "author" : [
       "Andreas Marienborg <andremar@cpan.org>"
