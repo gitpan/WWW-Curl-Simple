@@ -1,5 +1,5 @@
 package WWW::Curl::Simple::Request;
-our $VERSION = '0.100170';
+our $VERSION = '0.100171';
 # ABSTRACT: A small class representing request/response
 
 
@@ -15,7 +15,7 @@ use namespace::clean -except => 'meta';
 has 'agent' => (is => 'rw', isa => 'Str', required => 0, lazy_build => 1);
 
 sub _build_agent {
-    return "WWW::Curl::Simple/" . $WWW::Curl::Simple::VERSION;
+    return "WWW::Curl::Simple/" . ($WWW::Curl::Simple::VERSION ? $WWW::Curl::Simple::VERSION : '0.00');
 }
 
 
@@ -104,7 +104,7 @@ WWW::Curl::Simple::Request - A small class representing request/response
 
 =head1 VERSION
 
-version 0.100170
+version 0.100171
 
 =head1 DESCRIPTION
 

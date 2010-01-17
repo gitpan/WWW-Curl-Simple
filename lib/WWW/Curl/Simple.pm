@@ -1,5 +1,5 @@
 package WWW::Curl::Simple;
-our $VERSION = '0.100170';
+our $VERSION = '0.100171';
 # ABSTRACT: A Simpler interface to WWW::Curl
 use Moose;
 
@@ -114,8 +114,11 @@ sub perform {
         # and a general method that takes all those and applies the propper setopt
         # calls
         if ($self->timeout_ms) {
-            $curl->setopt(CURLOPT_TIMEOUT_MS, $self->timeout_ms) if $self->timeout_ms;
-            $curl->setopt(CURLOPT_CONNECTTIMEOUT_MS, $self->connection_timeout_ms) if $self->connection_timeout_ms;            
+            unless ($WWW::Curl::Easy::CURLOPT_TIMEOUT_MS) {
+                croak( "Your trying to use timeout_ms, but your libcurl is apperantly older than 7.16.12.");
+            }
+            $curl->setopt($WWW::Curl::Easy::CURLOPT_TIMEOUT_MS, $self->timeout_ms) if $self->timeout_ms;
+            $curl->setopt($WWW::Curl::Easy::CURLOPT_CONNECTTIMEOUT_MS, $self->connection_timeout_ms) if $self->connection_timeout_ms;                
         } else {
             $curl->setopt(CURLOPT_TIMEOUT, $self->timeout) if $self->timeout;
             $curl->setopt(CURLOPT_CONNECTTIMEOUT, $self->connection_timeout) if $self->connection_timeout;
@@ -192,7 +195,7 @@ WWW::Curl::Simple - A Simpler interface to WWW::Curl
 
 =head1 VERSION
 
-version 0.100170
+version 0.100171
 
 =head1 SYNOPSIS
 
