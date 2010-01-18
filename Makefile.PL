@@ -11,7 +11,7 @@ WriteMakefile(
   NAME      => 'WWW::Curl::Simple',
   AUTHOR    => "Andreas\ Marienborg\ \<andremar\@cpan\.org\>",
   ABSTRACT  => "A\ Simpler\ interface\ to\ WWW\:\:Curl",
-  VERSION   => '0.100180',
+  VERSION   => '0.100181',
   EXE_FILES => [ qw() ],
   (eval { ExtUtils::MakeMaker->VERSION(6.31) } ? (LICENSE => 'perl') : ()),
   PREREQ_PM    => {

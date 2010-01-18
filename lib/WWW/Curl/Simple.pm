@@ -1,5 +1,5 @@
 package WWW::Curl::Simple;
-our $VERSION = '0.100180';
+our $VERSION = '0.100181';
 # ABSTRACT: A Simpler interface to WWW::Curl
 use Moose;
 
@@ -195,7 +195,7 @@ WWW::Curl::Simple - A Simpler interface to WWW::Curl
 
 =head1 VERSION
 
-version 0.100180
+version 0.100181
 
 =head1 SYNOPSIS
 
