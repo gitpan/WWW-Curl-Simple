@@ -1,5 +1,5 @@
 package TestServer;
-our $VERSION = '0.100171';
+our $VERSION = '0.100180';
 
 use strict;
 use base qw(Net::Server::Single);

@@ -12,6 +12,7 @@ requires:
   Benchmark: 0
   Benchmark::Apps: 0
   Carp: 0
+  ExtUtils::MakeMaker: 0
   File::Basename: 0
   HTTP::Request: 0
   HTTP::Response: 0
@@ -26,4 +27,4 @@ requires:
   namespace::clean: 0
 resources:
   repository: http://github.com/omega/www-curl-simple
-version: 0.100171
+version: 0.100180
