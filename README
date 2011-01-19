@@ -1,12 +1,13 @@
 
 
-This archive contains the distribution WWW-Curl-Simple, version
-0.100181:
+This archive contains the distribution WWW-Curl-Simple,
+version 0.100182:
 
   A Simpler interface to WWW::Curl
 
-This software is copyright (c) 2010 by Andreas Marienborg.
+This software is copyright (c) 2011 by Andreas Marienborg.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
 

@@ -1,5 +1,7 @@
 package WWW::Curl::Simple::Request;
-our $VERSION = '0.100181';
+BEGIN {
+  $WWW::Curl::Simple::Request::VERSION = '0.100182';
+}
 # ABSTRACT: A small class representing request/response
 
 
@@ -32,23 +34,23 @@ has 'easy' => (is => 'rw', isa => 'WWW::Curl::Easy', required => 0, lazy_build =
 
 sub _build_easy {
     my ($self) = @_;
-    
+
     my $req = $self->request;
     # return ourselves as a WWW::Curl::Easy-object?
-    
+
 
     my $curl = new WWW::Curl::Easy;
-    
+
     $curl->setopt(CURLOPT_NOPROGRESS,1);
     $curl->setopt(CURLOPT_USERAGENT, $self->agent);
-    
+
     my $url = $req->uri->as_string;
     $curl->setopt(CURLOPT_URL, $url);
     if ($req->method eq 'POST') {
         $curl->setopt(CURLOPT_POST, 1);
         $curl->setopt(CURLOPT_POSTFIELDS, $req->content);
     }
-    
+
     my @headers;
     foreach my $h (+$req->headers->header_field_names) {
         #warn "h: $h";
@@ -62,19 +64,19 @@ sub _build_easy {
     $self->head(\$head_ref);
     open (my $fileb, ">", \$body_ref);
     $curl->setopt(CURLOPT_WRITEDATA,$fileb);
-    
+
     my $h = $self->head;
     open (my $fileh, ">", \$head_ref);
     $curl->setopt(CURLOPT_WRITEHEADER,$fileh);
-        
+
     return $curl;
-    
+
 }
 
 
 sub perform {
     my ($self) = @_;
-    
+
     my $retcode = $self->easy->perform;
     # Looking at the results...
     if ($retcode == 0) {
@@ -82,7 +84,7 @@ sub perform {
     } else {
             croak("An error happened: ".$self->easy->strerror($retcode)." ($retcode)\n");
     }
-    
+
 }
 
 
@@ -95,6 +97,7 @@ sub response {
 }
 
 1;
+
 __END__
 =pod
 
@@ -104,41 +107,42 @@ WWW::Curl::Simple::Request - A small class representing request/response
 
 =head1 VERSION
 
-version 0.100181
+version 0.100182
 
 =head1 DESCRIPTION
 
 Just a way to collect things used by both single and multi, and some
 WWW::Curl setup. You shouldn't need to use this class anywhere, although
-C<< $curl->perform >> returns objects of this class
+C<< $curl->perform >> returns objects of this class.
 
 =head1 ATTRIBUTES
 
 =head2 agent
 
 A String that will be sent as the user-agent string. Defaults to
+"WWW::Curl::Simple/" plus the current version number.
 
 =head2 body
 
-The body of the response
+The body of the response.
 
 =head2 head
 
-The head of the response
+The head of the response.
 
 =head2 request
 
-The HTTP::Request-object that we where created with. 
+The HTTP::Request object used to create this response.
 
 =head2 easy
 
-our WWW::Curl::Easy-object
+The WWW::Curl::Easy object which created this response.
 
 =head1 METHODS
 
 =head2 perform
 
-Performs the actuall request trough WWW::Curl::Easy. Used mostly in
+Performs the actual request throug WWW::Curl::Easy. Used mostly in
 single request land. Will croak on errors.
 
 =head2 response
@@ -149,11 +153,11 @@ Also sets request on the response object to the original request object.
 
 =head1 AUTHOR
 
-  Andreas Marienborg <andremar@cpan.org>
+Andreas Marienborg <andremar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Andreas Marienborg.
+This software is copyright (c) 2011 by Andreas Marienborg.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

@@ -18,7 +18,6 @@ t/author-10.usage.single.t
 t/author-20.non-fatal.t
 t/author-20.timeout-old.t
 t/author-99.pua-compat.t
-t/release-pod-coverage.t
 t/release-pod-syntax.t
 xt/benchmarks/bench.pl
 xt/benchmarks/benchit.pl
