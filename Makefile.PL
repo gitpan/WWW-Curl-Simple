@@ -28,11 +28,12 @@ my %WriteMakefileArgs = (
     'HTTP::Response' => '0',
     'Moose' => '0',
     'Scalar::Util' => '0',
+    'Time::HiRes' => '0',
     'WWW::Curl::Easy' => '0',
     'WWW::Curl::Multi' => '0',
     'namespace::clean' => '0'
   },
-  'VERSION' => '0.100182',
+  'VERSION' => '0.100183',
   'test' => {
     'TESTS' => 't/*.t'
   }

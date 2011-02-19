@@ -1,6 +1,6 @@
 package WWW::Curl::Simple;
 BEGIN {
-  $WWW::Curl::Simple::VERSION = '0.100182';
+  $WWW::Curl::Simple::VERSION = '0.100183';
 }
 # ABSTRACT: A Simpler interface to WWW::Curl
 use Moose;
@@ -11,6 +11,7 @@ use Carp qw/croak carp/;
 use WWW::Curl::Simple::Request;
 use WWW::Curl::Multi;
 use WWW::Curl::Easy;
+use Time::HiRes qw/nanosleep/;
 
 #use base 'LWP::Parallel::UserAgent';
 
@@ -148,6 +149,8 @@ sub perform {
                 }
             }
         }
+        # To precent busy-looping
+        nanosleep(1);
     }
     return @res;
 }
@@ -195,7 +198,7 @@ WWW::Curl::Simple - A Simpler interface to WWW::Curl
 
 =head1 VERSION
 
-version 0.100182
+version 0.100183
 
 =head1 SYNOPSIS
 

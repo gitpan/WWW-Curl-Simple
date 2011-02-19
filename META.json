@@ -26,6 +26,7 @@
             "HTTP::Response" : 0,
             "Moose" : 0,
             "Scalar::Util" : 0,
+            "Time::HiRes" : 0,
             "WWW::Curl::Easy" : 0,
             "WWW::Curl::Multi" : 0,
             "namespace::clean" : 0
@@ -46,7 +47,7 @@
          "web" : "http://github.com/omega/www-curl-simple"
       }
    },
-   "version" : "0.100182",
+   "version" : "0.100183",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
@@ -194,11 +195,6 @@
             "class" : "Dist::Zilla::Plugin::Git::NextVersion",
             "name" : "@ANDREMAR/Git::NextVersion",
             "version" : "1.102810"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::UploadToCPAN",
-            "name" : "UploadToCPAN",
-            "version" : "4.102345"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
