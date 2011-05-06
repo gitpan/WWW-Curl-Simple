@@ -33,7 +33,7 @@ my %WriteMakefileArgs = (
     'WWW::Curl::Multi' => '0',
     'namespace::clean' => '0'
   },
-  'VERSION' => '0.100183',
+  'VERSION' => '0.100184',
   'test' => {
     'TESTS' => 't/*.t'
   }
