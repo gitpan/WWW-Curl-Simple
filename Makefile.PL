@@ -4,38 +4,40 @@ use warnings;
 
 
 
-use ExtUtils::MakeMaker 6.31;
+use ExtUtils::MakeMaker 6.30;
 
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'A Simpler interface to WWW::Curl',
-  'AUTHOR' => 'Andreas Marienborg <andremar@cpan.org>',
-  'BUILD_REQUIRES' => {
-    'Test::Exception' => '0',
-    'Test::More' => '0.96'
+  "ABSTRACT" => "A Simpler interface to WWW::Curl",
+  "AUTHOR" => "Andreas Marienborg <andremar\@cpan.org>",
+  "BUILD_REQUIRES" => {
+    "Test::Exception" => 0,
+    "Test::More" => "0.96",
+    "base" => 0,
+    "strict" => 0
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.31'
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
   },
-  'DISTNAME' => 'WWW-Curl-Simple',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'WWW::Curl::Simple',
-  'PREREQ_PM' => {
-    'Carp' => '0',
-    'HTTP::Request' => '0',
-    'HTTP::Response' => '0',
-    'Moose' => '0',
-    'Scalar::Util' => '0',
-    'Time::HiRes' => '0',
-    'WWW::Curl::Easy' => '0',
-    'WWW::Curl::Multi' => '0',
-    'namespace::clean' => '0'
+  "DISTNAME" => "WWW-Curl-Simple",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "WWW::Curl::Simple",
+  "PREREQ_PM" => {
+    "Carp" => 0,
+    "HTTP::Request" => 0,
+    "HTTP::Response" => 0,
+    "Moose" => 0,
+    "Scalar::Util" => 0,
+    "Time::HiRes" => "1.9705",
+    "WWW::Curl::Easy" => 0,
+    "WWW::Curl::Multi" => 0,
+    "namespace::clean" => 0
   },
-  'VERSION' => '0.100184',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "VERSION" => "0.100185",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 

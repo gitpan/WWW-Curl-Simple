@@ -1,4 +1,9 @@
 Revision history for WWW-Curl-Simple
+0.100185  2012-02-23 11:08:36 Europe/Oslo
+        - Merge more doc fixes from chromatic
+          - Fixes RT#70782
+        - Test can run in parallel now (no shared port number)
+
 0.100184  2011-05-06 20:58:31 Asia/Bangkok
         - Merge pull request from chromatic to hopefully fix RT#60074
 

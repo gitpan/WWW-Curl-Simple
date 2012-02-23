@@ -1,6 +1,6 @@
 package WWW::Curl::Simple::Request;
-BEGIN {
-  $WWW::Curl::Simple::Request::VERSION = '0.100184';
+{
+  $WWW::Curl::Simple::Request::VERSION = '0.100185';
 }
 # ABSTRACT: A small class representing request/response
 
@@ -59,7 +59,7 @@ sub _build_easy {
     if (scalar(@headers)) {
         $curl->setopt(CURLOPT_HTTPHEADER, \@headers);
     }
-    my ($body_ref, $head_ref);
+    my ($body_ref, $head_ref) = ('', '');
     $self->body(\$body_ref);
     $self->head(\$head_ref);
     open (my $fileb, ">", \$body_ref);
@@ -107,7 +107,7 @@ WWW::Curl::Simple::Request - A small class representing request/response
 
 =head1 VERSION
 
-version 0.100184
+version 0.100185
 
 =head1 DESCRIPTION
 
@@ -132,22 +132,22 @@ The head of the response.
 
 =head2 request
 
-The HTTP::Request object used to create this response.
+The L<HTTP::Request> object used to create this response.
 
 =head2 easy
 
-The WWW::Curl::Easy object which created this response.
+The L<WWW::Curl::Easy> object which created this response.
 
 =head1 METHODS
 
 =head2 perform
 
-Performs the actual request throug WWW::Curl::Easy. Used mostly in
+Performs the actual request through L<WWW::Curl::Easy>. Used mostly in
 single request land. Will croak on errors.
 
 =head2 response
 
-Returns a HTTP::Response that represents the response of this object.
+Returns a L<HTTP::Response> that represents the response of this object.
 
 Also sets request on the response object to the original request object.
 
@@ -157,7 +157,7 @@ Andreas Marienborg <andremar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Andreas Marienborg.
+This software is copyright (c) 2012 by Andreas Marienborg.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

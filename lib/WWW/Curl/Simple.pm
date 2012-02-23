@@ -1,6 +1,6 @@
 package WWW::Curl::Simple;
-BEGIN {
-  $WWW::Curl::Simple::VERSION = '0.100184';
+{
+  $WWW::Curl::Simple::VERSION = '0.100185';
 }
 # ABSTRACT: A Simpler interface to WWW::Curl
 use Moose;
@@ -11,7 +11,7 @@ use Carp qw/croak carp/;
 use WWW::Curl::Simple::Request;
 use WWW::Curl::Multi;
 use WWW::Curl::Easy;
-use Time::HiRes qw/nanosleep/;
+use Time::HiRes 1.9705 qw/nanosleep/;
 
 #use base 'LWP::Parallel::UserAgent';
 
@@ -112,7 +112,7 @@ sub perform {
 
         # here we also mangle all requests based on options
         # XXX: Should re-factor this to be a metaclass/trait on the attributes,
-        # and a general method that takes all those and applies the propper setopt
+        # and a general method that takes all those and applies the proper setopt
         # calls
         if ($self->timeout_ms) {
             unless ($WWW::Curl::Easy::CURLOPT_TIMEOUT_MS) {
@@ -138,7 +138,7 @@ sub perform {
                     $i--;
                     my $req = $reqs{$id};
                     unless ($retcode == 0) {
-                        my $err = "Error during handeling of request: "
+                        my $err = "Error during handling of request: "
                             .$req->easy->strerror($retcode)." ". $req->request->uri;
 
                         croak($err) if $self->fatal;
@@ -149,7 +149,7 @@ sub perform {
                 }
             }
         }
-        # To precent busy-looping
+        # To prevent busy-looping
         nanosleep(1);
     }
     return @res;
@@ -189,6 +189,8 @@ has 'fatal' => (is => 'ro', isa => 'Bool', default => 1);
 
 1; # End of WWW::Curl::Simple
 
+
+
 __END__
 =pod
 
@@ -198,7 +200,7 @@ WWW::Curl::Simple - A Simpler interface to WWW::Curl
 
 =head1 VERSION
 
-version 0.100184
+version 0.100185
 
 =head1 SYNOPSIS
 
@@ -248,7 +250,7 @@ L<HTTP::Request> for more information on the format of C<$form>.
 =head2 add_request($req)
 
 Adds C<$req> (a L<HTTP::Request> object) to the list of URLs to fetch. Returns
-a L<WWW::Simple::Curl::Request> object.
+a L<WWW::Curl::Simple::Request> object.
 
 =head2 register($req)
 
@@ -272,9 +274,19 @@ L<WWW::Curl::Simple::Request> objects.
 These methods are here to provide an easier transition from
 L<LWP::Parallel::UserAgent>. It is by no means a drop in replacement, but using
 C<wait> instead of C<perform> makes the return value more like that of
-LWP::PUA.
+LWP::UA.
 
 =head1 LWP::Parallel::UserAgent compliant methods
+
+=head1 THANKS
+
+=over 4
+
+=item chromatic
+
+For several typo and doc fixes
+
+=back
 
 =head1 AUTHOR
 
@@ -282,7 +294,7 @@ Andreas Marienborg <andremar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Andreas Marienborg.
+This software is copyright (c) 2012 by Andreas Marienborg.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
