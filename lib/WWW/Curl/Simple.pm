@@ -1,6 +1,6 @@
 package WWW::Curl::Simple;
 {
-  $WWW::Curl::Simple::VERSION = '0.100185';
+  $WWW::Curl::Simple::VERSION = '0.100186';
 }
 # ABSTRACT: A Simpler interface to WWW::Curl
 use Moose;
@@ -22,7 +22,7 @@ use namespace::clean -except => 'meta';
 sub request {
     my ($self, $req) = @_;
 
-    my $curl = WWW::Curl::Simple::Request->new(request => $req);
+    my $curl = WWW::Curl::Simple::Request->new(simple_ua => $self, request => $req);
 
     # Starts the actual request
     return $curl->perform;
@@ -61,7 +61,7 @@ has _requests => (
 
 sub add_request {
     my ($self, $req) = @_;
-    $req = WWW::Curl::Simple::Request->new(request => $req);
+    $req = WWW::Curl::Simple::Request->new(simple_ua => $self, request => $req);
     $self->_add_request($req);
 
     return $req;
@@ -176,8 +176,18 @@ sub wait {
 
 
 
+
 has 'timeout' => (is => 'ro', isa => 'Int');
 has 'timeout_ms' => (is => 'ro', isa => 'Int');
+
+
+has 'max_redirects' => (is => 'ro', isa => 'Int', default => 5);
+
+
+has 'check_ssl_certs' => (is => 'ro', isa => 'Int', default => 1);
+
+
+has 'ssl_cert_bundle' => (is => 'ro', isa => 'Str', predicate => 'has_cacert');
 
 
 has 'connection_timeout' => (is => 'ro', isa => 'Int');
@@ -189,10 +199,11 @@ has 'fatal' => (is => 'ro', isa => 'Bool', default => 1);
 
 1; # End of WWW::Curl::Simple
 
-
-
 __END__
+
 =pod
+
+=encoding utf-8
 
 =head1 NAME
 
@@ -200,7 +211,7 @@ WWW::Curl::Simple - A Simpler interface to WWW::Curl
 
 =head1 VERSION
 
-version 0.100185
+version 0.100186
 
 =head1 SYNOPSIS
 
@@ -217,6 +228,21 @@ Makes WWW::Curl::(Easy|Multi) easier to use.
 =head2 timeout / timeout_ms
 
 Sets the timeout of individual requests, in seconds or milliseconds.
+
+=head2 max_redirects
+
+Sets the maximum number of redirects that should be transparently followed.
+Set this to 0 if you don't want to follow redirects. Default: 5.
+
+=head2 check_ssl_certs
+
+Specifies whether the underlying Curl library should check SSL certificates
+when making https requests. Defaults to 0 (i.e. don't check certs).
+
+=head2 ssl_cert_bundle
+
+Specifies the bundle to look for CA certificates in. Leave blank for system
+default, which should work if your libcurl is properly compiled.
 
 =head2 connection_timeout /connection_timeout_ms
 
@@ -271,33 +297,41 @@ L<WWW::Curl::Simple::Request> objects.
 
 =head2 wait
 
-These methods are here to provide an easier transition from
+This method is here to provide an easier transition from
 L<LWP::Parallel::UserAgent>. It is by no means a drop in replacement, but using
-C<wait> instead of C<perform> makes the return value more like that of
-LWP::UA.
-
-=head1 LWP::Parallel::UserAgent compliant methods
-
-=head1 THANKS
-
-=over 4
-
-=item chromatic
-
-For several typo and doc fixes
-
-=back
+C<wait> instead of C<perform> makes the return value more like that of LWP::UA.
 
 =head1 AUTHOR
 
 Andreas Marienborg <andremar@cpan.org>
 
+=head1 CONTRIBUTORS
+
+=over 4
+
+=item *
+
+Bjørn-Olav Strand <bo@startsiden.no>
+
+=item *
+
+Marcus Ramberg <marcus@nordaaker.com>
+
+=item *
+
+Neil Bowers <neil@bowers.com>
+
+=item *
+
+chromatic <chromatic@wgz.org>
+
+=back
+
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Andreas Marienborg.
+This software is copyright (c) 2013 by Andreas Marienborg.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

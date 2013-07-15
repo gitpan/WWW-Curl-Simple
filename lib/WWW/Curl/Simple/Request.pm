@@ -1,6 +1,6 @@
 package WWW::Curl::Simple::Request;
 {
-  $WWW::Curl::Simple::Request::VERSION = '0.100185';
+  $WWW::Curl::Simple::Request::VERSION = '0.100186';
 }
 # ABSTRACT: A small class representing request/response
 
@@ -28,6 +28,9 @@ has 'head' => (is => 'rw', isa => 'ScalarRef', required => 0);
 
 
 has 'request' => (is => 'ro', isa => 'HTTP::Request');
+
+
+has 'simple_ua' => (is => 'ro', isa => 'WWW::Curl::Simple', weak_ref => 1);
 
 
 has 'easy' => (is => 'rw', isa => 'WWW::Curl::Easy', required => 0, lazy_build => 1);
@@ -69,6 +72,20 @@ sub _build_easy {
     open (my $fileh, ">", \$head_ref);
     $curl->setopt(CURLOPT_WRITEHEADER,$fileh);
 
+    my $max_redirects = $self->simple_ua->max_redirects;
+
+    # follow redirects for up to 5 hops
+    $curl->setopt(CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP);
+    $curl->setopt(CURLOPT_FOLLOWLOCATION, $max_redirects > 0);
+    $curl->setopt(CURLOPT_MAXREDIRS, $max_redirects);
+    $curl->setopt(CURLOPT_AUTOREFERER, 1);
+
+    # don't require certificate data to make https requests
+    $curl->setopt(CURLOPT_SSL_VERIFYPEER, $self->simple_ua->check_ssl_certs);
+    if ($self->simple_ua->has_cacert) {
+        $curl->setopt(CURLOPT_CAINFO, $self->simple_ua->ssl_cert_bundle);
+    }
+
     return $curl;
 
 }
@@ -90,6 +107,9 @@ sub perform {
 
 sub response {
     my ($self) = @_;
+    # If we handled redirects, we'll have multiple headers from CURLOPT_WRITEHEADER,
+    # so we strip off all but the last one before parsing it
+    ${ $self->head } =~ s!^HTTP.*\r?\n\r?\nHTTP!HTTP!s;
     my $res = HTTP::Response->parse(${$self->head} . "\r" . ${$self->body});
     $res->request($self->request);
     $res->content(${$self->body});
@@ -99,7 +119,10 @@ sub response {
 1;
 
 __END__
+
 =pod
+
+=encoding utf-8
 
 =head1 NAME
 
@@ -107,7 +130,7 @@ WWW::Curl::Simple::Request - A small class representing request/response
 
 =head1 VERSION
 
-version 0.100185
+version 0.100186
 
 =head1 DESCRIPTION
 
@@ -134,6 +157,10 @@ The head of the response.
 
 The L<HTTP::Request> object used to create this response.
 
+=head2 simple_ua
+
+The WWW::Curl::Simple instance that generated this request.
+
 =head2 easy
 
 The L<WWW::Curl::Easy> object which created this response.
@@ -157,10 +184,9 @@ Andreas Marienborg <andremar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Andreas Marienborg.
+This software is copyright (c) 2013 by Andreas Marienborg.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
