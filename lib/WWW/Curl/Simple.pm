@@ -1,6 +1,6 @@
 package WWW::Curl::Simple;
 {
-  $WWW::Curl::Simple::VERSION = '0.100186';
+  $WWW::Curl::Simple::VERSION = '0.100187';
 }
 # ABSTRACT: A Simpler interface to WWW::Curl
 use Moose;
@@ -211,13 +211,9 @@ WWW::Curl::Simple - A Simpler interface to WWW::Curl
 
 =head1 VERSION
 
-version 0.100186
+version 0.100187
 
 =head1 SYNOPSIS
-
-Makes WWW::Curl::(Easy|Multi) easier to use.
-
-    use WWW::Curl::Simple;
 
     my $curl = WWW::Curl::Simple->new();
 

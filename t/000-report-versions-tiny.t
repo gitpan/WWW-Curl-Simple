@@ -57,6 +57,7 @@ eval { $v .= pmver('HTTP::Response','any version') };
 eval { $v .= pmver('Moose','any version') };
 eval { $v .= pmver('Pod::Coverage::TrustPod','any version') };
 eval { $v .= pmver('Scalar::Util','any version') };
+eval { $v .= pmver('Test::CPAN::Changes','0.19') };
 eval { $v .= pmver('Test::Exception','any version') };
 eval { $v .= pmver('Test::More','0.96') };
 eval { $v .= pmver('Test::Pod','1.41') };

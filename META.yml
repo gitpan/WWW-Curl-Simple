@@ -33,7 +33,7 @@ resources:
   bugtracker: https://github.com/omega/www-curl-simple/issues
   homepage: https://github.com/omega/www-curl-simple
   repository: https://github.com/omega/www-curl-simple.git
-version: 0.100186
+version: 0.100187
 x_Dist_Zilla:
   perl:
     version: 5.016003
@@ -49,7 +49,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::CheckExtraTests
       name: '@ANDREMAR/CheckExtraTests'
-      version: 0.011
+      version: ~
     -
       class: Dist::Zilla::Plugin::PruneCruft
       name: '@ANDREMAR/@Filter/PruneCruft'
@@ -143,6 +143,10 @@ x_Dist_Zilla:
       name: '@ANDREMAR/Test::Compile'
       version: 2.002
     -
+      class: Dist::Zilla::Plugin::Test::CPAN::Changes
+      name: '@ANDREMAR/Test::CPAN::Changes'
+      version: 0.008
+    -
       class: Dist::Zilla::Plugin::ReportVersions::Tiny
       name: '@ANDREMAR/ReportVersions::Tiny'
       version: 1.08
@@ -150,6 +154,10 @@ x_Dist_Zilla:
       class: Dist::Zilla::Plugin::ContributorsFromGit
       name: '@ANDREMAR/ContributorsFromGit'
       version: 0.006
+    -
+      class: Dist::Zilla::Plugin::Test::Synopsis
+      name: '@ANDREMAR/Test::Synopsis'
+      version: 2.000003
     -
       class: Dist::Zilla::Plugin::Prereqs
       config:

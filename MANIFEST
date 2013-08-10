@@ -24,8 +24,10 @@ t/author-31.check-ssl-certs.t
 t/author-99.pua-compat.t
 t/certs
 t/release-changes_has_content.t
+t/release-cpan-changes.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
+t/release-synopsis.t
 xt/benchmarks/bench.pl
 xt/benchmarks/benchit.pl
 xt/benchmarks/i/curl-simple.pl

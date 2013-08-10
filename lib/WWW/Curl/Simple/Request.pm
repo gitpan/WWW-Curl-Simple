@@ -1,6 +1,6 @@
 package WWW::Curl::Simple::Request;
 {
-  $WWW::Curl::Simple::Request::VERSION = '0.100186';
+  $WWW::Curl::Simple::Request::VERSION = '0.100187';
 }
 # ABSTRACT: A small class representing request/response
 
@@ -130,7 +130,7 @@ WWW::Curl::Simple::Request - A small class representing request/response
 
 =head1 VERSION
 
-version 0.100186
+version 0.100187
 
 =head1 DESCRIPTION
 

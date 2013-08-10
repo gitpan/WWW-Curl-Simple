@@ -22,6 +22,7 @@
       "develop" : {
          "requires" : {
             "Pod::Coverage::TrustPod" : "0",
+            "Test::CPAN::Changes" : "0.19",
             "Test::Pod" : "1.41",
             "Test::Pod::Coverage" : "1.08",
             "version" : "0.9901"
@@ -64,7 +65,7 @@
          "web" : "https://github.com/omega/www-curl-simple"
       }
    },
-   "version" : "0.100186",
+   "version" : "0.100187",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.016003"
@@ -83,7 +84,7 @@
          {
             "class" : "Dist::Zilla::Plugin::CheckExtraTests",
             "name" : "@ANDREMAR/CheckExtraTests",
-            "version" : "0.011"
+            "version" : null
          },
          {
             "class" : "Dist::Zilla::Plugin::PruneCruft",
@@ -201,6 +202,11 @@
             "version" : "2.002"
          },
          {
+            "class" : "Dist::Zilla::Plugin::Test::CPAN::Changes",
+            "name" : "@ANDREMAR/Test::CPAN::Changes",
+            "version" : "0.008"
+         },
+         {
             "class" : "Dist::Zilla::Plugin::ReportVersions::Tiny",
             "name" : "@ANDREMAR/ReportVersions::Tiny",
             "version" : "1.08"
@@ -209,6 +215,11 @@
             "class" : "Dist::Zilla::Plugin::ContributorsFromGit",
             "name" : "@ANDREMAR/ContributorsFromGit",
             "version" : "0.006"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Synopsis",
+            "name" : "@ANDREMAR/Test::Synopsis",
+            "version" : "2.000003"
          },
          {
             "class" : "Dist::Zilla::Plugin::Prereqs",
