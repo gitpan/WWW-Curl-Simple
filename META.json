@@ -65,7 +65,7 @@
          "web" : "https://github.com/omega/www-curl-simple"
       }
    },
-   "version" : "0.100187",
+   "version" : "0.100188",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.016003"

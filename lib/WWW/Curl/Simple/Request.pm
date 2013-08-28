@@ -1,6 +1,6 @@
 package WWW::Curl::Simple::Request;
 {
-  $WWW::Curl::Simple::Request::VERSION = '0.100187';
+  $WWW::Curl::Simple::Request::VERSION = '0.100188';
 }
 # ABSTRACT: A small class representing request/response
 
@@ -75,7 +75,10 @@ sub _build_easy {
     my $max_redirects = $self->simple_ua->max_redirects;
 
     # follow redirects for up to 5 hops
-    $curl->setopt(CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP);
+    if ($WWW::Curl::Easy::CURLPROTO_HTTP) {
+        # This option and the CURLPROTO_HTTP was both added in 7.19.4
+        $curl->setopt(CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP);
+    }
     $curl->setopt(CURLOPT_FOLLOWLOCATION, $max_redirects > 0);
     $curl->setopt(CURLOPT_MAXREDIRS, $max_redirects);
     $curl->setopt(CURLOPT_AUTOREFERER, 1);
@@ -130,7 +133,7 @@ WWW::Curl::Simple::Request - A small class representing request/response
 
 =head1 VERSION
 
-version 0.100187
+version 0.100188
 
 =head1 DESCRIPTION
 

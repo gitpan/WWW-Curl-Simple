@@ -33,7 +33,7 @@ resources:
   bugtracker: https://github.com/omega/www-curl-simple/issues
   homepage: https://github.com/omega/www-curl-simple
   repository: https://github.com/omega/www-curl-simple.git
-version: 0.100187
+version: 0.100188
 x_Dist_Zilla:
   perl:
     version: 5.016003
