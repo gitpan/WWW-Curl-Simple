@@ -1,6 +1,6 @@
 package WWW::Curl::Simple;
 {
-  $WWW::Curl::Simple::VERSION = '0.100189';
+  $WWW::Curl::Simple::VERSION = '0.100190';
 }
 # ABSTRACT: A Simpler interface to WWW::Curl
 use Moose;
@@ -197,6 +197,8 @@ has 'connection_timeout_ms' => (is => 'ro', isa => 'Int');
 
 has 'fatal' => (is => 'ro', isa => 'Bool', default => 1);
 
+__PACKAGE__->meta->make_immutable;
+
 1; # End of WWW::Curl::Simple
 
 __END__
@@ -211,7 +213,7 @@ WWW::Curl::Simple - A Simpler interface to WWW::Curl
 
 =head1 VERSION
 
-version 0.100189
+version 0.100190
 
 =head1 SYNOPSIS
 
@@ -308,6 +310,10 @@ Andreas Marienborg <andremar@cpan.org>
 =item *
 
 Bjørn-Olav Strand <bo@startsiden.no>
+
+=item *
+
+Graham Knop <haarg@haarg.org>
 
 =item *
 

@@ -33,7 +33,7 @@ resources:
   bugtracker: https://github.com/omega/www-curl-simple/issues
   homepage: https://github.com/omega/www-curl-simple
   repository: https://github.com/omega/www-curl-simple.git
-version: 0.100189
+version: 0.100190
 x_Dist_Zilla:
   perl:
     version: 5.016003
@@ -229,6 +229,7 @@ x_Dist_Zilla:
     version: 4.300036
 x_contributors:
   - 'Bjørn-Olav Strand <bo@startsiden.no>'
+  - 'Graham Knop <haarg@haarg.org>'
   - 'Marcus Ramberg <marcus@nordaaker.com>'
   - 'Neil Bowers <neil@bowers.com>'
   - 'chromatic <chromatic@wgz.org>'

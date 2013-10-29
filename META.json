@@ -65,7 +65,7 @@
          "web" : "https://github.com/omega/www-curl-simple"
       }
    },
-   "version" : "0.100189",
+   "version" : "0.100190",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.016003"
@@ -313,6 +313,7 @@
    },
    "x_contributors" : [
       "Bj\u00f8rn-Olav Strand <bo@startsiden.no>",
+      "Graham Knop <haarg@haarg.org>",
       "Marcus Ramberg <marcus@nordaaker.com>",
       "Neil Bowers <neil@bowers.com>",
       "chromatic <chromatic@wgz.org>"

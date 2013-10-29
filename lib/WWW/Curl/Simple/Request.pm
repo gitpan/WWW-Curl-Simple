@@ -1,6 +1,6 @@
 package WWW::Curl::Simple::Request;
 {
-  $WWW::Curl::Simple::Request::VERSION = '0.100189';
+  $WWW::Curl::Simple::Request::VERSION = '0.100190';
 }
 # ABSTRACT: A small class representing request/response
 
@@ -119,6 +119,8 @@ sub response {
     return $res;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 __END__
@@ -133,7 +135,7 @@ WWW::Curl::Simple::Request - A small class representing request/response
 
 =head1 VERSION
 
-version 0.100189
+version 0.100190
 
 =head1 DESCRIPTION
 
