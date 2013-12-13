@@ -1,6 +1,6 @@
 package WWW::Curl::Simple;
 {
-  $WWW::Curl::Simple::VERSION = '0.100190';
+  $WWW::Curl::Simple::VERSION = '0.100191';
 }
 # ABSTRACT: A Simpler interface to WWW::Curl
 use Moose;
@@ -205,7 +205,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -213,7 +213,7 @@ WWW::Curl::Simple - A Simpler interface to WWW::Curl
 
 =head1 VERSION
 
-version 0.100190
+version 0.100191
 
 =head1 SYNOPSIS
 
@@ -235,7 +235,7 @@ Set this to 0 if you don't want to follow redirects. Default: 5.
 =head2 check_ssl_certs
 
 Specifies whether the underlying Curl library should check SSL certificates
-when making https requests. Defaults to 0 (i.e. don't check certs).
+when making https requests. Defaults to 1 (i.e. do check certs, to err on safe side).
 
 =head2 ssl_cert_bundle
 
@@ -309,7 +309,7 @@ Andreas Marienborg <andremar@cpan.org>
 
 =item *
 
-Bjørn-Olav Strand <bo@startsiden.no>
+BjÃ¸rn-Olav Strand <bo@startsiden.no>
 
 =item *
 
